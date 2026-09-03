@@ -1,0 +1,71 @@
+---
+import "@/styles/global.css";
+import favicon from "@/assets/favicon.png";
+import defaultImage from "@/assets/default-cover.png";
+
+import ClientRouter from "astro/components/ClientRouter.astro";
+import Font from "astro/components/Font.astro";
+import type { HTMLAttributes } from "astro/types";
+import { getImage } from "astro:assets";
+
+export interface LayoutProps {
+  title: string;
+  desc: string;
+  image?: ImageMetadata;
+  defaultTheme?: string;
+}
+
+interface Props
+  extends LayoutProps, Omit<HTMLAttributes<"body">, keyof LayoutProps> {}
+
+const {
+  title,
+  desc,
+  image: unoptimizedImage = defaultImage,
+  defaultTheme = "light",
+  ...rest
+} = Astro.props;
+const optimizedImage = await getImage({
+  src: unoptimizedImage,
+  width: 1280,
+  height: 628,
+  fit: "contain",
+});
+const imageURL = new URL(optimizedImage.src, Astro.site);
+---
+
+<html lang={Astro.currentLocale} data-theme={defaultTheme}>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href={favicon.src} />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+
+    <ClientRouter />
+    <Font cssVariable="--font-dm-sans" />
+    <Font cssVariable="--font-jb-mono" />
+    <Font cssVariable="--font-peaberry" />
+
+    {/* primary */}
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={desc} />
+
+    {/* open graph */}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.site} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:image" content={imageURL} />
+
+    {/* twitter (x) */}
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={Astro.site} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={desc} />
+    <meta property="twitter:image" content={imageURL} />
+  </head>
+  <body {...rest}>
+    <slot />
+  </body>
+</html>
