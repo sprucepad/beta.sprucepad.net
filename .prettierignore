@@ -1,0 +1,8 @@
+# build output
+.wrangler/
+.astro/
+dist/
+
+# dependencies
+pnpm-lock.yaml
+.pnpm-store/

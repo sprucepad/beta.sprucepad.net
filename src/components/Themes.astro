@@ -1,0 +1,39 @@
+---
+export interface ThemeDetail {
+  mode?: "off" | "uwu";
+  theme?: string;
+}
+---
+
+<script>
+  import type { ThemeDetail } from "./Themes.astro";
+
+  window.addEventListener("themechange", (event) => {
+    const e = event as CustomEvent<ThemeDetail>;
+    setTheme(e.detail.theme, e.detail.mode);
+  });
+
+  setTheme(
+    localStorage.getItem("theme"),
+    parseUwu() ?? localStorage.getItem("mode"),
+  );
+
+  function setTheme(theme?: string | null, mode?: string | null) {
+    if (theme) {
+      document.documentElement.dataset.theme = theme;
+      localStorage.setItem("theme", theme);
+    }
+    if (mode) {
+      document.documentElement.dataset.mode = mode;
+      localStorage.setItem("mode", mode);
+    }
+  }
+
+  function parseUwu() {
+    const param = new URLSearchParams(location.search).get("uwu");
+    if (param == null) return null;
+
+    if (param === "" || param === "uwu") return "uwu";
+    return "off";
+  }
+</script>

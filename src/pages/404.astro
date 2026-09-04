@@ -1,7 +1,28 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { i18n } from "@/i18n";
+import { buttonVariants } from "@/components/ui/Button.astro";
+import Link from "@/components/ui/Link.astro";
 
 export const prerender = false;
+
+const { t } = i18n(Astro.currentLocale);
 ---
 
-<Layout title="TODO" desc="TODO">TODO</Layout>
+<Layout
+  title={`${t("404.title")} (404) - sprucepad`}
+  desc={t("404.desc")}
+  class="mx-auto max-w-prose space-y-4"
+>
+  <h1 class="font-pixel text-6xl font-black text-secondary italic">404</h1>
+  <h2 class="font-pixel text-4xl font-black">{t("404.title")}</h2>
+  <p>{t("404.desc")}</p>
+
+  <Link
+    class={buttonVariants({ variant: "secondary", size: "md" })}
+    href="/"
+    id="backButton"
+  >
+    {t("404.back")}
+  </Link>
+</Layout>
