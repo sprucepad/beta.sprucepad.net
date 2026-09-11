@@ -1,7 +1,12 @@
 ---
 import pfp from "@/assets/pfp.png";
-import BMCIcon from "@/assets/bmc-logo.svg";
+import BMCIcon from "@/assets/bmc.svg";
 import GitHubIcon from "@/assets/github.svg";
+import YouTubeIcon from "@/assets/youtube.svg";
+import RedditIcon from "@/assets/reddit.svg";
+import BskyIcon from "@/assets/bsky.svg";
+import ItchIoIcon from "@/assets/itchio.svg";
+import HeartPlusIcon from "@lucide/astro/icons/heart-plus";
 import MenuIcon from "@lucide/astro/icons/menu";
 import XIcon from "@lucide/astro/icons/x";
 import InfoIcon from "@lucide/astro/icons/info";
@@ -25,16 +30,23 @@ const items = [
 ];
 
 const socials = [
+  { label: "GitHub", href: "https://github.com/sprucepad", Icon: GitHubIcon },
   {
-    label: "Buy My a Coffee!",
-    href: "https://buymeacoffee.com/sprucepad",
-    Icon: BMCIcon,
+    label: "YouTube",
+    href: "https://youtube.com/@sprucepad",
+    Icon: YouTubeIcon,
   },
   {
-    label: "GitHub",
-    href: "https://github.com/sprucepad",
-    Icon: GitHubIcon,
+    label: "Reddit",
+    href: "https://reddit.com/user/sprucepad",
+    Icon: RedditIcon,
   },
+  {
+    label: "Bluesky",
+    href: "https://bsky.app/profile/sprucepad.net",
+    Icon: BskyIcon,
+  },
+  { label: "itch.io", href: "https://sprucepad.itch.io/", Icon: ItchIoIcon },
 ];
 ---
 
@@ -44,7 +56,7 @@ const socials = [
   class="group/header fixed inset-0 isolate z-50 h-16 transform p-2 transition-transform before:absolute before:inset-0 before:-z-50 before:bg-background/75 before:backdrop-blur-lg data-hidden:-translate-y-full"
 >
   <nav class="flex items-center gap-4">
-    <button name="toggle" type="button" class="sm:hidden">
+    <button name="toggle" type="button" class="sm:hidden" aria-hidden="true">
       <MenuIcon class="block group-data-open/header:hidden" />
       <XIcon class="hidden group-data-open/header:block" />
     </button>
@@ -92,50 +104,76 @@ const socials = [
     </ul>
 
     <ul class="absolute right-4 flex gap-2">
-      {
-        socials.map((social) => (
-          <li class="group/socials relative">
-            <Link href={social.href}>
-              <social.Icon width={24} height={24} />
-            </Link>
-            <span class="pointer-events-none absolute top-10 right-0 w-max rounded-lg bg-secondary p-2 text-sm text-secondary-foreground opacity-0 transition-opacity group-hover/socials:opacity-100">
-              {social.label}
-            </span>
-          </li>
-        ))
-      }
+      <li class="group/social relative">
+        <Link href="https://buymeacoffee.com/sprucepad">
+          <BMCIcon width={24} height={24} />
+        </Link>
+        <span
+          class="pointer-events-none absolute top-8 right-0 w-max rounded-lg bg-secondary p-2 text-sm text-secondary-foreground opacity-0 transition-opacity group-hover/social:opacity-100"
+        >
+          Buy Me a Coffee!
+        </span>
+      </li>
+
+      <li class="group/socials more-socials">
+        <button class="group/social relative cursor-pointer" aria-hidden="true">
+          <HeartPlusIcon />
+        </button>
+
+        <ul
+          class="fixed top-12 right-0 flex translate-x-full transform flex-col gap-2 p-4 transition-transform group-hover/socials:translate-x-0 group-data-open/socials:translate-x-0"
+        >
+          {
+            socials.map((social) => (
+              <li class="group/social relative">
+                <Link href={social.href}>
+                  <social.Icon width={24} height={24} />
+                </Link>
+                <span class="pointer-events-none absolute -top-1/4 right-[calc(100%+0.25rem)] w-max rounded-lg bg-secondary p-2 text-sm text-secondary-foreground opacity-0 transition-opacity group-hover/social:opacity-100">
+                  {social.label}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </li>
     </ul>
   </nav>
-</header>
 
-<script>
-  let controller: AbortController | undefined;
+  <script>
+    let controller: AbortController | undefined;
 
-  document.addEventListener("astro:page-load", () => {
-    controller?.abort();
-    controller = new AbortController();
-    const signal = controller.signal;
+    document.addEventListener("astro:page-load", () => {
+      controller?.abort();
+      controller = new AbortController();
+      const signal = controller.signal;
 
-    const $header = document.getElementById("header");
-    const $toggle = $header?.querySelector("[name=toggle]");
+      const $header = document.getElementById("header");
+      const $toggle = $header?.querySelector("[name=toggle]");
+      const $moreSocials = $header?.querySelector(".more-socials");
 
-    $toggle?.addEventListener("click", () => {
-      $header?.toggleAttribute("data-open");
+      $toggle?.addEventListener("click", () => {
+        $header?.toggleAttribute("data-open");
+      });
+
+      $moreSocials?.addEventListener("click", () => {
+        $moreSocials.toggleAttribute("data-open");
+      });
+
+      let prevScroll = window.scrollY;
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (document.activeViewTransition) return;
+
+          if (window.scrollY - prevScroll >= 0)
+            $header?.setAttribute("data-hidden", "");
+          else $header?.removeAttribute("data-hidden");
+
+          prevScroll = window.scrollY;
+        },
+        { signal },
+      );
     });
-
-    let prevScroll = window.scrollY;
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (document.activeViewTransition) return;
-
-        if (window.scrollY - prevScroll >= 0)
-          $header?.setAttribute("data-hidden", "");
-        else $header?.removeAttribute("data-hidden");
-
-        prevScroll = window.scrollY;
-      },
-      { signal },
-    );
-  });
-</script>
+  </script>
+</header>
