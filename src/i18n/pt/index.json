@@ -3,5 +3,12 @@
     "title": "página não encontrada",
     "desc": "A página que você estava procurando não existe ou foi movida.",
     "back": "Voltar"
+  },
+  "header": {
+    "about": "Sobre",
+    "contact": "Contato",
+    "blog": "Blog",
+    "gallery": "Galeria",
+    "projects": "Projects"
   }
 }

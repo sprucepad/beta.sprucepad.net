@@ -1,1 +1,121 @@
-<header>TODO</header>
+---
+import pfp from "@/assets/pfp.png";
+import BMCIcon from "@/assets/bmc-logo.svg";
+import GitHubIcon from "@/assets/github.svg";
+import MenuIcon from "@lucide/astro/icons/menu";
+import XIcon from "@lucide/astro/icons/x";
+import InfoIcon from "@lucide/astro/icons/info";
+import MailQuestionMarkIcon from "@lucide/astro/icons/mail-question-mark";
+import RSSIcon from "@lucide/astro/icons/rss";
+import BrushIcon from "@lucide/astro/icons/brush";
+import HammerIcon from "@lucide/astro/icons/hammer";
+
+import { i18n } from "@/i18n";
+import { Image } from "astro:assets";
+import Link from "./ui/Link.astro";
+
+const { t } = i18n(Astro.currentLocale);
+
+const items = [
+  { label: t("header.about"), href: "/", Icon: InfoIcon },
+  { label: t("header.contact"), href: "/contact", Icon: MailQuestionMarkIcon },
+  { label: t("header.blog"), href: "/blog", Icon: RSSIcon },
+  { label: t("header.gallery"), href: "/gallery", Icon: BrushIcon },
+  { label: t("header.projects"), href: "/projects", Icon: HammerIcon },
+];
+
+const socials = [
+  {
+    label: "Buy My a Coffee!",
+    href: "https://buymeacoffee.com/sprucepad",
+    Icon: BMCIcon,
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/sprucepad",
+    Icon: GitHubIcon,
+  },
+];
+---
+
+<header
+  id="header"
+  transition:name="header"
+  transition:animate="none"
+  class="group/header fixed inset-0 isolate z-50 h-16 p-2 before:absolute before:inset-0 before:-z-50 before:bg-background/75 before:backdrop-blur-lg"
+>
+  <nav class="flex items-center gap-4">
+    <button name="toggle" type="button" class="sm:hidden">
+      <MenuIcon class="block group-data-open/header:hidden" />
+      <XIcon class="hidden group-data-open/header:block" />
+    </button>
+
+    <Link href="/" class="flex items-center font-pixel text-2xl font-black">
+      <Image
+        src={pfp}
+        width={48}
+        height={48}
+        format="png"
+        class="pixel-art"
+        alt=""
+      />
+      <span class="hidden max-sm:block md:block">sprucepad</span>
+    </Link>
+    <ul
+      class="fixed top-16 left-0 flex h-full -translate-x-full transform flex-col bg-background/75 p-2 backdrop-blur-lg transition-transform group-data-open/header:translate-x-0 sm:static sm:translate-x-0 sm:flex-row sm:bg-transparent sm:p-0"
+      transition:animate="slide"
+    >
+      {
+        items.map((item) => {
+          const pathname = Astro.url.pathname.replace(
+            "/" + Astro.currentLocale,
+            "",
+          );
+
+          return (
+            <li>
+              <Link
+                href={item.href}
+                class="flex gap-1 rounded-lg p-2 data-selected:bg-accent"
+                transition:animate="fade"
+                data-selected={
+                  (item.href === "/"
+                    ? pathname === item.href
+                    : pathname.startsWith(item.href)) || undefined
+                }
+              >
+                <item.Icon /> {item.label}
+              </Link>
+            </li>
+          );
+        })
+      }
+    </ul>
+
+    <ul class="absolute right-4 flex gap-2">
+      {
+        socials.map((social) => (
+          <li class="group/socials relative">
+            <Link href={social.href}>
+              <social.Icon width={24} height={24} />
+            </Link>
+            <span class="pointer-events-none absolute top-10 right-0 w-max rounded-lg bg-secondary p-2 text-sm text-secondary-foreground opacity-0 transition-opacity group-hover/socials:opacity-100">
+              {social.label}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const $header = document.getElementById("header");
+    const $toggle = $header?.querySelector("[name=toggle]");
+
+    $toggle?.addEventListener("click", () => {
+      $header?.toggleAttribute("data-open");
+    });
+  });
+</script>

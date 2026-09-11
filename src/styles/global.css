@@ -35,6 +35,10 @@
   --secondary-foreground: #eeeeee;
 }
 
+@utility pixel-art {
+  image-rendering: pixelated;
+}
+
 @layer base {
   html,
   body {
