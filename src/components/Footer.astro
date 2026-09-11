@@ -1,1 +1,30 @@
-<footer>TODO</footer>
+<footer
+  transition:persist="footer"
+  transition:animate="slide"
+  class="flex justify-around p-4 opacity-50"
+>
+  <p>&copy; 2025-{new Date().getFullYear()} sprucepad.</p>
+
+  <select id="language">
+    <option value="pt" selected={Astro.currentLocale === "en"}>Português</option
+    >
+    <option value="en" selected={Astro.currentLocale === "en"}>English</option>
+  </select>
+</footer>
+
+<script>
+  import { navigate } from "astro:transitions/client";
+
+  const $language = document.getElementById(
+    "language",
+  ) as HTMLSelectElement | null;
+  let currentLocale = $language?.value ?? "pt";
+  $language?.addEventListener("change", () => {
+    const unlocalizedPathname = location.pathname.replace(
+      "/" + currentLocale,
+      "",
+    );
+    currentLocale = $language?.value;
+    navigate(`/${currentLocale}${unlocalizedPathname}`);
+  });
+</script>

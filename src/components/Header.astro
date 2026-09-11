@@ -41,8 +41,7 @@ const socials = [
 <header
   id="header"
   transition:name="header"
-  transition:animate="none"
-  class="group/header fixed inset-0 isolate z-50 h-16 p-2 before:absolute before:inset-0 before:-z-50 before:bg-background/75 before:backdrop-blur-lg"
+  class="group/header fixed inset-0 isolate z-50 h-16 transform p-2 transition-transform before:absolute before:inset-0 before:-z-50 before:bg-background/75 before:backdrop-blur-lg data-hidden:-translate-y-full"
 >
   <nav class="flex items-center gap-4">
     <button name="toggle" type="button" class="sm:hidden">
@@ -110,12 +109,33 @@ const socials = [
 </header>
 
 <script>
+  let controller: AbortController | undefined;
+
   document.addEventListener("astro:page-load", () => {
+    controller?.abort();
+    controller = new AbortController();
+    const signal = controller.signal;
+
     const $header = document.getElementById("header");
     const $toggle = $header?.querySelector("[name=toggle]");
 
     $toggle?.addEventListener("click", () => {
       $header?.toggleAttribute("data-open");
     });
+
+    let prevScroll = window.scrollY;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (document.activeViewTransition) return;
+
+        if (window.scrollY - prevScroll >= 0)
+          $header?.setAttribute("data-hidden", "");
+        else $header?.removeAttribute("data-hidden");
+
+        prevScroll = window.scrollY;
+      },
+      { signal },
+    );
   });
 </script>
