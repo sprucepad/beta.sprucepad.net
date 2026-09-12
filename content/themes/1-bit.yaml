@@ -1,0 +1,8 @@
+scheme: dark
+colors:
+  background: "#000000"
+  foreground: "#ffffff"
+  accent: "#ffffff"
+  accentForeground: "#000000"
+  secondary: "#ffffff"
+  secondaryForeground: "#000000"

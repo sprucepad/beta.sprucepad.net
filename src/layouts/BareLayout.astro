@@ -1,7 +1,7 @@
 ---
 import "@/styles/global.css";
-import favicon from "@/assets/favicon.png";
-import defaultImage from "@/assets/default-cover.png";
+import favicon from "@content/assets/favicon.png";
+import defaultImage from "@content/assets/default-cover.png";
 
 import ClientRouter from "astro/components/ClientRouter.astro";
 import Font from "astro/components/Font.astro";
@@ -24,6 +24,7 @@ const {
   desc,
   image: unoptimizedImage = defaultImage,
   theme = { theme: "light", mode: "off" },
+  style,
   ...rest
 } = Astro.props;
 const optimizedImage = await getImage({
@@ -39,6 +40,7 @@ const imageURL = new URL(optimizedImage.src, Astro.site);
   lang={Astro.currentLocale}
   data-theme={theme.theme}
   data-mode={theme.mode}
+  {style}
 >
   <head>
     <meta charset="utf-8" />

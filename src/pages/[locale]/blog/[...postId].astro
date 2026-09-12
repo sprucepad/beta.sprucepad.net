@@ -1,0 +1,45 @@
+---
+import type { ThemeDetail } from "@/components/Themes.astro";
+import { i18n } from "@/i18n";
+import Layout from "@/layouts/Layout.astro";
+import type { GetStaticPaths } from "astro";
+import { getCollection, getEntry } from "astro:content";
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection("posts");
+  return posts.map((post) => {
+    const [locale, ...idSegments] = post.id.split("/");
+    return {
+      params: { locale, postId: idSegments.join("/") },
+      props: { post },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+function createThemeStyles(colors: ThemeDetail["colors"]) {
+  if (!colors) return;
+
+  return `
+    ${colors.background ? `--background: ${colors.background};` : ""}
+    ${colors.foreground ? `--foreground: ${colors.foreground};` : ""}
+    ${colors.accent ? `--accent: ${colors.accent};` : ""}
+    ${colors.accentForeground ? `--accent-foreground: ${colors.accentForeground};` : ""}
+    ${colors.secondary ? `--secondary: ${colors.secondary};` : ""}
+    ${colors.secondaryForeground ? `--secondary-foreground: ${colors.secondaryForeground};` : ""}
+  `;
+}
+
+const { post } = Astro.props;
+const { t, locale } = i18n(Astro.currentLocale);
+
+const theme = post.data.theme ? await getEntry(post.data.theme) : undefined;
+const themeStyles = createThemeStyles(theme?.data.colors);
+---
+
+<Layout
+  title={post.data.title}
+  desc={post.data.desc}
+  image={post.data.cover}
+  theme={{ theme: theme ? `${theme.data.scheme}:${theme.id}` : undefined }}
+  style={themeStyles}
+/>

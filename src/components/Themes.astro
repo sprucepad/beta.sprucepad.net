@@ -2,6 +2,15 @@
 export interface ThemeDetail {
   mode?: "off" | "uwu";
   theme?: string;
+
+  colors?: {
+    background?: string;
+    foreground?: string;
+    accent?: string;
+    accentForeground?: string;
+    secondary?: string;
+    secondaryForeground?: string;
+  };
 }
 ---
 
@@ -14,14 +23,19 @@ export interface ThemeDetail {
   });
 
   setTheme(
-    localStorage.getItem("theme"),
+    !document.documentElement.dataset.theme?.includes(":")
+      ? localStorage.getItem("theme")
+      : null,
     parseUwu() ?? localStorage.getItem("mode"),
   );
 
   function setTheme(theme?: string | null, mode?: string | null) {
     if (theme) {
       document.documentElement.dataset.theme = theme;
-      localStorage.setItem("theme", theme);
+
+      // post-specific themes will always include `:` for the theme ID
+      // we don't want to save post-specific themes
+      if (!theme.includes(":")) localStorage.setItem("theme", theme);
     }
     if (mode) {
       document.documentElement.dataset.mode = mode;

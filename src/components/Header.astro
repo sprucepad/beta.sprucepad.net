@@ -1,11 +1,11 @@
 ---
-import pfp from "@/assets/pfp.png";
-import BMCIcon from "@/assets/bmc.svg";
-import GitHubIcon from "@/assets/github.svg";
-import YouTubeIcon from "@/assets/youtube.svg";
-import RedditIcon from "@/assets/reddit.svg";
-import BskyIcon from "@/assets/bsky.svg";
-import ItchIoIcon from "@/assets/itchio.svg";
+import pfp from "@content/assets/pfp.png";
+import BMCIcon from "@content/assets/bmc.svg";
+import GitHubIcon from "@content/assets/github.svg";
+import YouTubeIcon from "@content/assets/youtube.svg";
+import RedditIcon from "@content/assets/reddit.svg";
+import BskyIcon from "@content/assets/bsky.svg";
+import ItchIoIcon from "@content/assets/itchio.svg";
 import HeartPlusIcon from "@lucide/astro/icons/heart-plus";
 import MenuIcon from "@lucide/astro/icons/menu";
 import XIcon from "@lucide/astro/icons/x";
@@ -87,7 +87,7 @@ const socials = [
             <li>
               <Link
                 href={item.href}
-                class="flex gap-1 rounded-lg p-2 data-selected:bg-accent"
+                class="flex gap-1 rounded-lg p-2 hover:underline data-selected:bg-accent data-selected:text-accent-foreground"
                 transition:animate="fade"
                 data-selected={
                   (item.href === "/"

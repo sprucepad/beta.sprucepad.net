@@ -56,7 +56,7 @@ export default defineConfig({
       options: {
         variants: [
           {
-            src: ["./src/fonts/Peaberry.woff2"],
+            src: ["./content/fonts/Peaberry.woff2"],
           },
         ],
       },
