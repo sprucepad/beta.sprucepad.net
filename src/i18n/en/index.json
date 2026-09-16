@@ -10,5 +10,9 @@
     "blog": "Blog",
     "gallery": "Gallery",
     "projects": "Projects"
-  }
+  },
+
+  "license": "License",
+  "createdAt": "Created at",
+  "updatedAt": "Updated at"
 }

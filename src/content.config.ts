@@ -29,10 +29,39 @@ const posts = defineCollection({
       cover: image().optional(),
 
       theme: reference("themes").optional(),
+      topics: z.array(reference("topics")).default([]),
+      license: z.string().default("All Rights Reserved"),
 
       createdAt: z.date(),
       updatedAt: z.date(),
     }),
 });
 
-export const collections = { themes, posts };
+const projects = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "content/posts" }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      desc: z.string(),
+      cover: image().optional(),
+
+      theme: reference("themes").optional(),
+      topics: z.array(reference("topics")).default([]),
+
+      createdAt: z.date(),
+      updatedAt: z.date(),
+    }),
+});
+
+const topics = defineCollection({
+  loader: glob({
+    pattern: "**/*.{toml,yaml,yml,json}",
+    base: "content/topics",
+  }),
+  schema: z.object({
+    name: z.record(z.string(), z.string()),
+    icon: z.string(),
+  }),
+});
+
+export const collections = { themes, posts, projects, topics };

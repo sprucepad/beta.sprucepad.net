@@ -9,6 +9,10 @@
     "contact": "Contato",
     "blog": "Blog",
     "gallery": "Galeria",
-    "projects": "Projects"
-  }
+    "projects": "Projetos"
+  },
+
+  "license": "Licença",
+  "createdAt": "Criado em",
+  "updatedAt": "Atualizado em"
 }

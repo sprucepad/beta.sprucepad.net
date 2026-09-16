@@ -2,8 +2,12 @@
 import type { ThemeDetail } from "@/components/Themes.astro";
 import { i18n } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
+import Icon from "@lucide/astro-icon";
 import type { GetStaticPaths } from "astro";
-import { getCollection, getEntry } from "astro:content";
+import { Image } from "astro:assets";
+import { getEntries } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
+import { icons } from "lucide";
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection("posts");
@@ -30,7 +34,11 @@ function createThemeStyles(colors: ThemeDetail["colors"]) {
 }
 
 const { post } = Astro.props;
+const { postId } = Astro.params;
 const { t, locale } = i18n(Astro.currentLocale);
+
+const { Content } = await render(post);
+const topics = await getEntries(post.data.topics);
 
 const theme = post.data.theme ? await getEntry(post.data.theme) : undefined;
 const themeStyles = createThemeStyles(theme?.data.colors);
@@ -42,4 +50,57 @@ const themeStyles = createThemeStyles(theme?.data.colors);
   image={post.data.cover}
   theme={{ theme: theme ? `${theme.data.scheme}:${theme.id}` : undefined }}
   style={themeStyles}
-/>
+>
+  <article class="mx-auto prose dark:prose-invert">
+    <header class="not-prose">
+      {post.data.cover && (
+        <Image
+          src={post.data.cover}
+          alt=""
+          class="mb-4 rounded-lg"
+          transition:name={`card-image-${postId}`}
+        />
+      )}
+      <h1
+        class="font-pixel text-4xl font-black"
+        transition:name={`card-title-${postId}`}
+      >
+        {post.data.title}
+      </h1>
+      <p transition:name={`card-desc-${postId}`}>{post.data.desc}</p>
+
+      <ul
+        transition:name={`card-topics-${postId}`}
+        class="mt-4 flex flex-wrap gap-2"
+      >
+        {topics.map((topic) => (
+          <li class="flex items-center gap-1 rounded-lg bg-accent p-1 px-2 text-accent-foreground">
+            <Icon
+              iconNode={
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any -- this might be a bug in Lucide, as the icon renders just fine
+                (icons as any)[topic.data.icon]
+              }
+            />
+            {topic.data.name[locale]}
+          </li>
+        ))}
+      </ul>
+    </header>
+
+    <Content />
+
+    <footer class="not-prose">
+      <ul class="list-disc flex gap-6 flex-wrap px-4">
+        <li>
+          {t("license")}: {post.data.license}
+        </li>
+        <li>
+          {t("createdAt")}: {post.data.createdAt.toLocaleDateString(locale)}
+        </li>
+        <li>
+          {t("updatedAt")}: {post.data.updatedAt.toLocaleDateString(locale)}
+        </li>
+      </ul>
+    </footer>
+  </article>
+</Layout>

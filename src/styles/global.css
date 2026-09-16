@@ -15,6 +15,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-border: var(--border);
 }
 
 :root {
@@ -24,6 +25,7 @@
   --accent-foreground: #111111;
   --secondary: #487f58;
   --secondary-foreground: #eeeeee;
+  --border: #cccccc;
 }
 
 [data-theme^="dark"] {
@@ -33,6 +35,7 @@
   --accent-foreground: #111111;
   --secondary: #487f58;
   --secondary-foreground: #eeeeee;
+  --border: #333333;
 }
 
 @utility pixel-art {
