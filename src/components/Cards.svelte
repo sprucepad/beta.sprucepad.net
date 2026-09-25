@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Icon from "@lucide/svelte-icon";
+  import Icon from "@re-exports/lucide-svelte-icon";
   import SearchBox from "./SearchBox.svelte";
   import type { Card } from "@/lib/collections";
 

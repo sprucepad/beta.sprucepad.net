@@ -1,12 +1,12 @@
 ---
-import type { ThemeDetail } from "@/components/Themes.astro";
 import { i18n } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
-import Icon from "@lucide/astro-icon";
+import { processTheme } from "@/lib/collections";
+import Icon from "@re-exports/lucide-astro-icon";
 import type { GetStaticPaths } from "astro";
 import { Image } from "astro:assets";
 import { getEntries } from "astro:content";
-import { getCollection, getEntry, render } from "astro:content";
+import { getCollection, render } from "astro:content";
 import { icons } from "lucide";
 
 export const getStaticPaths = (async () => {
@@ -20,19 +20,6 @@ export const getStaticPaths = (async () => {
   });
 }) satisfies GetStaticPaths;
 
-function createThemeStyles(colors: ThemeDetail["colors"]) {
-  if (!colors) return;
-
-  return `
-    ${colors.background ? `--background: ${colors.background};` : ""}
-    ${colors.foreground ? `--foreground: ${colors.foreground};` : ""}
-    ${colors.accent ? `--accent: ${colors.accent};` : ""}
-    ${colors.accentForeground ? `--accent-foreground: ${colors.accentForeground};` : ""}
-    ${colors.secondary ? `--secondary: ${colors.secondary};` : ""}
-    ${colors.secondaryForeground ? `--secondary-foreground: ${colors.secondaryForeground};` : ""}
-  `;
-}
-
 const { post } = Astro.props;
 const { postId } = Astro.params;
 const { t, locale } = i18n(Astro.currentLocale);
@@ -40,16 +27,14 @@ const { t, locale } = i18n(Astro.currentLocale);
 const { Content } = await render(post);
 const topics = await getEntries(post.data.topics);
 
-const theme = post.data.theme ? await getEntry(post.data.theme) : undefined;
-const themeStyles = createThemeStyles(theme?.data.colors);
+const theme = post.data.theme ? await processTheme(post.data.theme) : undefined;
 ---
 
 <Layout
   title={post.data.title}
   desc={post.data.desc}
   image={post.data.cover}
-  theme={{ theme: theme ? `${theme.data.scheme}:${theme.id}` : undefined }}
-  style={themeStyles}
+  {theme}
 >
   <article class="mx-auto prose dark:prose-invert">
     <header class="not-prose">

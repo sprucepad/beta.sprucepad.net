@@ -1,7 +1,8 @@
 ---
 export interface ThemeDetail {
   mode?: "off" | "uwu";
-  theme?: string;
+  scheme?: string;
+  id?: string;
 
   colors?: {
     background?: string;
@@ -10,6 +11,7 @@ export interface ThemeDetail {
     accentForeground?: string;
     secondary?: string;
     secondaryForeground?: string;
+    border?: string;
   };
 }
 ---
@@ -19,27 +21,33 @@ export interface ThemeDetail {
 
   window.addEventListener("themechange", (event) => {
     const e = event as CustomEvent<ThemeDetail>;
-    setTheme(e.detail.theme, e.detail.mode);
+    setTheme({
+      id: e.detail.id,
+      scheme: e.detail.scheme,
+      mode: e.detail.mode,
+    });
   });
 
-  setTheme(
-    !document.documentElement.dataset.theme?.includes(":")
-      ? localStorage.getItem("theme")
+  setTheme({
+    scheme: !document.documentElement.dataset.theme?.includes(":")
+      ? localStorage.getItem("scheme")
       : null,
-    parseUwu() ?? localStorage.getItem("mode"),
-  );
+    mode: parseUwu() ?? localStorage.getItem("mode"),
+  });
 
-  function setTheme(theme?: string | null, mode?: string | null) {
-    if (theme) {
-      document.documentElement.dataset.theme = theme;
-
-      // post-specific themes will always include `:` for the theme ID
-      // we don't want to save post-specific themes
-      if (!theme.includes(":")) localStorage.setItem("theme", theme);
+  function setTheme(opts: {
+    scheme?: string | null;
+    id?: string | null;
+    mode?: string | null;
+  }) {
+    if (opts.scheme) {
+      document.documentElement.dataset.theme =
+        opts.scheme + (opts.id ? `:${opts.id}` : "");
+      localStorage.setItem("scheme", opts.scheme);
     }
-    if (mode) {
-      document.documentElement.dataset.mode = mode;
-      localStorage.setItem("mode", mode);
+    if (opts.mode) {
+      document.documentElement.dataset.mode = opts.mode;
+      localStorage.setItem("mode", opts.mode);
     }
   }
 

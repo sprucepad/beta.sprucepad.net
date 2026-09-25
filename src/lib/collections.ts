@@ -1,3 +1,4 @@
+import type { ThemeDetail } from "@/components/Themes.astro";
 import { getImage } from "astro:assets";
 import {
   getCollection,
@@ -52,7 +53,7 @@ export async function getCards(
           title: card.data.title,
           desc: card.data.desc,
           topics: await Promise.all(
-            card.data.topics.map((ref) => getTopic(locale, ref)),
+            card.data.topics.map((ref) => processTopic(locale, ref)),
           ),
           cover: await processImage(card.data.cover),
         };
@@ -67,7 +68,7 @@ interface Topic {
   icon: IconNode;
 }
 
-async function getTopic(
+async function processTopic(
   locale: string,
   ref: ReferenceDataEntry<"topics">,
 ): Promise<Topic> {
@@ -77,5 +78,16 @@ async function getTopic(
     id: entry.id,
     name: entry.data.name[locale],
     icon: (icons as Record<string, IconNode>)[entry.data.icon],
+  };
+}
+
+export async function processTheme(
+  ref: ReferenceDataEntry<"themes">,
+): Promise<ThemeDetail> {
+  const theme = await getEntry(ref);
+  return {
+    id: theme?.id,
+    colors: theme?.data.colors,
+    scheme: theme?.data.scheme,
   };
 }

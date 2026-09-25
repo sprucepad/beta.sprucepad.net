@@ -16,6 +16,7 @@ const themes = defineCollection({
       accentForeground: z.string().optional(),
       secondary: z.string().optional(),
       secondaryForeground: z.string().optional(),
+      border: z.string().optional(),
     }),
   }),
 });

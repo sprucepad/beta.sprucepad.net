@@ -1,3 +1,8 @@
+---
+import MoonIcon from "@lucide/astro/icons/moon";
+import SunIcon from "@lucide/astro/icons/sun";
+---
+
 <footer
   transition:persist="footer"
   transition:animate="slide"
@@ -5,15 +10,28 @@
 >
   <p>&copy; 2025-{new Date().getFullYear()} sprucepad.</p>
 
+  <button
+    id="theme-select"
+    class="custom:hidden cursor-pointer"
+    aria-label="Switch Theme"
+  >
+    <MoonIcon class="dark:hidden" />
+    <SunIcon class="hidden dark:block" />
+  </button>
+
   <select id="language">
-    <option value="pt" selected={Astro.currentLocale === "en"}>Português</option
-    >
-    <option value="en" selected={Astro.currentLocale === "en"}>English</option>
+    <option value="pt" selected={Astro.currentLocale === "en"}>
+      Português
+    </option>
+    <option value="en" selected={Astro.currentLocale === "en"}>
+      English
+    </option>
   </select>
 </footer>
 
 <script>
   import { navigate } from "astro:transitions/client";
+  import type { ThemeDetail } from "./Themes.astro";
 
   const $language = document.getElementById(
     "language",
@@ -26,5 +44,20 @@
     );
     currentLocale = $language?.value;
     navigate(`/${currentLocale}${unlocalizedPathname}`);
+  });
+
+  const $themeSelect = document.getElementById("theme-select");
+  $themeSelect?.addEventListener("click", () => {
+    window.dispatchEvent(
+      new CustomEvent("themechange", {
+        detail: {
+          scheme: (
+            document.documentElement.dataset.theme ?? "light"
+          ).startsWith("light")
+            ? "dark"
+            : "light",
+        } satisfies ThemeDetail,
+      }),
+    );
   });
 </script>

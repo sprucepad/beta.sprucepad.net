@@ -23,8 +23,7 @@ const {
   title,
   desc,
   image: unoptimizedImage = defaultImage,
-  theme = { theme: "light", mode: "off" },
-  style,
+  theme,
   ...rest
 } = Astro.props;
 const optimizedImage = await getImage({
@@ -34,12 +33,28 @@ const optimizedImage = await getImage({
   fit: "contain",
 });
 const imageURL = new URL(optimizedImage.src, Astro.site);
+
+function createThemeStyles(colors: ThemeDetail["colors"]) {
+  if (!colors) return;
+
+  return {
+    "--background": colors.background,
+    "--foreground": colors.foreground,
+    "--accent": colors.accent,
+    "--accent-foreground": colors.accentForeground,
+    "--secondary": colors.secondary,
+    "--secondary-foreground": colors.secondaryForeground,
+    "--border": colors.border,
+  };
+}
+
+const style = createThemeStyles(theme?.colors);
 ---
 
 <html
   lang={Astro.currentLocale}
-  data-theme={theme.theme}
-  data-mode={theme.mode}
+  data-theme={theme ? `${theme?.scheme}:${theme?.id}` : "light"}
+  data-mode="off"
   {style}
 >
   <head>

@@ -7,8 +7,12 @@
 
       // Lucide doesn't export its generic Icon component outside of root,
       // which is really slow for Astro and Svelte. So I'm doing it here.
-      "@lucide/astro-icon": ["./node_modules/@lucide/astro/src/Icon.astro"],
-      "@lucide/svelte-icon": ["./node_modules/@lucide/svelte/dist/Icon.svelte"]
+      "@re-exports/lucide-astro-icon": [
+        "./node_modules/@lucide/astro/src/Icon.astro"
+      ],
+      "@re-exports/lucide-svelte-icon": [
+        "./node_modules/@lucide/svelte/dist/Icon.svelte"
+      ]
     }
   },
   "include": [".astro/types.d.ts", "**/*", "./worker-configuration.d.ts"],
