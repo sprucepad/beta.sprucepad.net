@@ -1,6 +1,6 @@
 <script lang="ts">
   import Icon from "@re-exports/lucide-svelte-icon";
-  import SearchBox from "./SearchBox.svelte";
+  import SearchBox, { type PossibleMatch } from "./SearchBox.svelte";
   import type { Card } from "@/lib/collections";
 
   interface Props {
@@ -17,15 +17,26 @@
 
   let cards = $state((() => initCards)());
 
-  function topicsMatch(t: typeof topics, value: string) {
+  function topicsMatch(t: typeof topics, match: PossibleMatch) {
     return t.some(
       (topic) =>
-        stringMatches(topic.id, value) || stringMatches(topic.name, value),
+        stringMatches(topic.id, match) || stringMatches(topic.name, match),
     );
   }
 
-  function stringMatches(s: string, value: string) {
-    return s.toLowerCase().includes(value);
+  function stringMatches(s: string, match: PossibleMatch) {
+    return match.exact
+      ? s.toLowerCase() === match.value
+      : s.toLowerCase().includes(match.value);
+  }
+
+  function toggleTopic(string: string, regex: RegExp) {
+    if (value.includes(string))
+      value = value
+        .replace(regex, "")
+        .replace(/\s{2,}/, " ")
+        .trim();
+    else value = (value + ` ${string}`).replace(/\s{2,}/, " ").trim();
   }
 </script>
 
@@ -36,29 +47,29 @@
     filter={(kw, kv) => {
       if (!kv.size && !kw.size) return (cards = initCards);
       cards = initCards.filter((card) => {
-        for (const [key, value] of kv) {
+        for (const [key, match] of kv) {
           switch (key) {
             case "topic":
-              if (topicsMatch(card.topics, value)) return true;
+              if (topicsMatch(card.topics, match)) return true;
             case "title":
-              if (stringMatches(card.title, value)) return true;
+              if (stringMatches(card.title, match)) return true;
             case "id":
-              if (stringMatches(card.id, value)) return true;
+              if (stringMatches(card.id, match)) return true;
             case "desc":
             case "description":
-              if (stringMatches(card.desc, value)) return true;
+              if (stringMatches(card.desc, match)) return true;
             case "img":
             case "alt":
-              if (card.cover?.alt && stringMatches(card.cover.alt, value))
+              if (card.cover?.alt && stringMatches(card.cover.alt, match))
                 return true;
           }
         }
 
-        for (const keyword of kw) {
+        for (const match of kw) {
           if (
-            stringMatches(card.id, keyword) ||
-            stringMatches(card.title, keyword) ||
-            stringMatches(card.desc, keyword)
+            stringMatches(card.id, match) ||
+            stringMatches(card.title, match) ||
+            stringMatches(card.desc, match)
           ) {
             return true;
           }
@@ -67,21 +78,14 @@
     }}
   />
 
-  <div>
+  <div class="flex max-w-full gap-2 overflow-x-scroll">
     {#each topics as topic (topic.id)}
-      {@const regex = new RegExp(`\\btopic:${topic.id}\\b`, "i")}
+      {@const string = `topic:${topic.id}`}
+      {@const regex = new RegExp(`\\b${string}\\b`, "i")}
       <button
         class="flex cursor-pointer items-center gap-1 rounded-full bg-accent p-1 px-2 text-sm text-accent-foreground transition-colors data-selected:bg-secondary data-selected:text-secondary-foreground"
         data-selected={regex.test(value) ? true : undefined}
-        onclick={() => {
-          const string = `topic:${topic.id}`;
-          if (value.includes(string))
-            value = value
-              .replace(regex, "")
-              .replace(/\s{2,}/, " ")
-              .trim();
-          else value = (value + ` ${string}`).replace(/\s{2,}/, " ").trim();
-        }}
+        onclick={() => toggleTopic(string, regex)}
       >
         <!-- eslint-disable-next-line @typescript-eslint/no-explicit-any -- this might be a bug in Lucide, as the icon renders just fine -->
         <Icon iconNode={topic.icon as any} width={16} height={16} />
@@ -119,7 +123,12 @@
             {#each card.topics as topic (topic.id)}
               <li>
                 <button
-                  class="flex items-center gap-1 rounded-lg bg-accent p-1 px-2 text-accent-foreground"
+                  class="flex cursor-pointer items-center gap-1 rounded-lg bg-accent p-1 px-2 text-accent-foreground"
+                  onclick={() => {
+                    const string = `topic:${topic.id}`;
+                    const regex = new RegExp(`\\b${string}\\b`, "i");
+                    toggleTopic(string, regex);
+                  }}
                 >
                   <!-- eslint-disable-next-line @typescript-eslint/no-explicit-any -- this might be a bug in Lucide, as the icon renders just fine -->
                   <Icon iconNode={topic.icon as any} />
