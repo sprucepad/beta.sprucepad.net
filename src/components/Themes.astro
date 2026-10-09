@@ -28,11 +28,13 @@ export interface ThemeDetail {
     });
   });
 
-  setTheme({
-    scheme: !document.documentElement.dataset.theme?.includes(":")
-      ? localStorage.getItem("scheme")
-      : null,
-    mode: parseUwu() ?? localStorage.getItem("mode"),
+  document.addEventListener("astro:page-load", () => {
+    setTheme({
+      scheme: !document.documentElement.dataset.theme?.includes(":")
+        ? localStorage.getItem("scheme")
+        : null,
+      mode: parseUwu() ?? localStorage.getItem("mode"),
+    });
   });
 
   function setTheme(opts: {
