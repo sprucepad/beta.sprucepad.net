@@ -28,14 +28,17 @@ export interface ThemeDetail {
     });
   });
 
-  document.addEventListener("astro:page-load", () => {
+  function updateDefaultTheme() {
     setTheme({
       scheme: !document.documentElement.dataset.theme?.includes(":")
         ? localStorage.getItem("scheme")
         : null,
       mode: parseUwu() ?? localStorage.getItem("mode"),
     });
-  });
+  }
+
+  updateDefaultTheme();
+  document.addEventListener("astro:page-load", updateDefaultTheme);
 
   function setTheme(opts: {
     scheme?: string | null;
