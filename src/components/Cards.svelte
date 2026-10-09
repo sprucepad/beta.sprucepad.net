@@ -1,6 +1,6 @@
 <script lang="ts">
   import Icon from "@re-exports/lucide-svelte-icon";
-  import SearchBox, { type PossibleMatch } from "./SearchBox.svelte";
+  import Filter, { normalize, type PossibleMatch } from "./Filter.svelte";
   import type { Card } from "@/lib/collections";
 
   interface Props {
@@ -14,8 +14,7 @@
   let value = $state("");
 
   const topics = $derived(initCards.flatMap((card) => card.topics));
-
-  let cards = $state((() => initCards)());
+  let cards = $derived(initCards);
 
   function topicsMatch(t: typeof topics, match: PossibleMatch) {
     return t.some(
@@ -31,50 +30,79 @@
   }
 
   function toggleTopic(string: string, regex: RegExp) {
-    if (value.includes(string))
-      value = value
-        .replace(regex, "")
-        .replace(/\s{2,}/, " ")
-        .trim();
-    else value = (value + ` ${string}`).replace(/\s{2,}/, " ").trim();
+    if (regex.test(value)) value = normalize(value, regex);
+    else value = normalize(value + ` ${string}`);
+  }
+
+  function sort(cards: Card[], order: "asc" | "desc", by = "title") {
+    const key = by as keyof Card;
+    return cards.sort((a, b) => {
+      switch (key) {
+        case "cover":
+          if (order === "asc")
+            return b.cover?.alt
+              ? b.cover.alt.localeCompare(a.cover?.alt ?? "")
+              : 0;
+          else if (order === "desc")
+            return a.cover?.alt
+              ? a.cover.alt.localeCompare(b.cover?.alt ?? "")
+              : 0;
+        case "title":
+        case "id":
+        case "desc":
+        default:
+          return order === "asc"
+            ? (b[key] as string).localeCompare(a[key] as string)
+            : (a[key] as string).localeCompare(b[key] as string);
+      }
+    });
   }
 </script>
 
 <div class="space-y-4">
-  <SearchBox
+  <Filter
     {placeholder}
     bind:value
-    filter={(kw, kv) => {
-      if (!kv.size && !kw.size) return (cards = initCards);
-      cards = initCards.filter((card) => {
-        for (const [key, match] of kv) {
-          switch (key) {
-            case "topic":
-              if (topicsMatch(card.topics, match)) return true;
-            case "title":
-              if (stringMatches(card.title, match)) return true;
-            case "id":
-              if (stringMatches(card.id, match)) return true;
-            case "desc":
-            case "description":
-              if (stringMatches(card.desc, match)) return true;
-            case "img":
-            case "alt":
-              if (card.cover?.alt && stringMatches(card.cover.alt, match))
-                return true;
+    sortableItems={[
+      ["Title", "title"],
+      ["Description", "desc"],
+    ]}
+    filter={({ kw, kv, sortOrder, sortBy }) => {
+      if (!kv.size && !kw.size)
+        return (cards = sort(initCards, sortOrder, sortBy));
+      cards = sort(
+        initCards.filter((card) => {
+          for (const [key, match] of kv) {
+            switch (key) {
+              case "topic":
+                if (topicsMatch(card.topics, match)) return true;
+              case "title":
+                if (stringMatches(card.title, match)) return true;
+              case "id":
+                if (stringMatches(card.id, match)) return true;
+              case "desc":
+              case "description":
+                if (stringMatches(card.desc, match)) return true;
+              case "img":
+              case "alt":
+                if (card.cover?.alt && stringMatches(card.cover.alt, match))
+                  return true;
+            }
           }
-        }
 
-        for (const match of kw) {
-          if (
-            stringMatches(card.id, match) ||
-            stringMatches(card.title, match) ||
-            stringMatches(card.desc, match)
-          ) {
-            return true;
+          for (const match of kw) {
+            if (
+              stringMatches(card.id, match) ||
+              stringMatches(card.title, match) ||
+              stringMatches(card.desc, match)
+            ) {
+              return true;
+            }
           }
-        }
-      });
+        }),
+        sortOrder,
+        sortBy,
+      );
     }}
   />
 
