@@ -16,7 +16,7 @@
     "lint:fix": "eslint --fix",
     "fmt": "prettier --write .",
     "fmt:check": "prettier --check .",
-    "check:i18n": "inlang check --project ./project.inlang"
+    "check:i18n": "inlang check --project ./project.inlang --missing-translations"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.4",

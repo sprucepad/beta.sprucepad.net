@@ -6,3 +6,8 @@ dist/
 # dependencies
 pnpm-lock.yaml
 .pnpm-store/
+
+# paraglide
+project.inlang/
+!project.inlang/settings.json
+src/paraglide/

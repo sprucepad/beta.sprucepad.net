@@ -20,6 +20,7 @@ export default defineConfig([
     "worker-configuration.d.ts",
     ".astro/**/*",
     "dist/**/*",
+    "src/paraglide/**/*",
   ]),
 
   tseslint.configs.recommended,
