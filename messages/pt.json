@@ -12,5 +12,14 @@
 
   "license": "Licença",
   "createdAt": "Criado em",
-  "updatedAt": "Atualizado em"
+  "updatedAt": "Atualizado em",
+
+  "index_title": "sprucepad | programador e artista",
+  "index_desc": "meu site pessoal e profissional!",
+  "index_message": "Olá, Mundo!",
+
+  "blog_title": "blog | sprucepad",
+  "blog_desc": "meu blog, com devlogs dos meus projetos, escritas sobre arte ou qualquer coisa que quero escrever sobre!",
+  "blog_search": "Pesquisar nos posts do blog",
+  "blog_empty": "Nenhum post ainda!"
 }

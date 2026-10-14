@@ -1,14 +1,15 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { localizeGetStaticPaths } from "@/lib/i18n";
+import { m } from "@/paraglide/messages";
 
 export const getStaticPaths = localizeGetStaticPaths();
 ---
 
 <Layout
-  title="sprucepad"
-  desc="My personal website!"
+  title={m.index_title()}
+  desc={m.index_desc()}
   class="grid min-h-svh place-content-center"
 >
-  <h1 class="font-pixel text-4xl font-black">Hello, World!</h1>
+  <h1 class="font-pixel text-4xl font-black">{m.index_message()}</h1>
 </Layout>

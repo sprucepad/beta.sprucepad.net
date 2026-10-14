@@ -9,7 +9,7 @@
   "packageManager": "pnpm@12.11.2",
   "scripts": {
     "dev": "astro dev",
-    "build": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide && astro build",
+    "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
     "lint": "eslint",

@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import Cards from "@/components/Cards.svelte";
 import { getCards } from "@/lib/collections";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { m } from "@/paraglide/messages";
 import { localizeGetStaticPaths } from "@/lib/i18n";
 
 export const getStaticPaths = localizeGetStaticPaths();
@@ -11,16 +12,12 @@ const { locale } = Astro.params;
 const posts = await getCards(locale, "posts");
 ---
 
-<Layout
-  title="blog | sprucepad"
-  desc="my blog, with devlogs for my projects, writings about art or anything else i want to write about about!"
-  class="mx-auto max-w-prose"
->
+<Layout title={m.blog_title()} desc={m.blog_desc()} class="mx-auto max-w-prose">
   <Cards
     client:load
     cards={posts}
     href={getRelativeLocaleUrl(locale, "/blog")}
-    placeholder="Search in blog posts"
-    empty="No posts yet!"
+    placeholder={m.blog_search()}
+    empty={m.blog_empty()}
   />
 </Layout>
