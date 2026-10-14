@@ -1,28 +1,26 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { i18n } from "@/i18n";
 import { buttonVariants } from "@/components/ui/Button.astro";
 import Link from "@/components/ui/Link.astro";
+import { m } from "@/paraglide/messages";
 
 export const prerender = false;
-
-const { t } = i18n(Astro.currentLocale);
 ---
 
 <Layout
-  title={`${t("404.title")} (404) - sprucepad`}
-  desc={t("404.desc")}
+  title={`${m.notFound_title()} (404) - sprucepad`}
+  desc={m.notFound_desc()}
   class="mx-auto max-w-prose space-y-4 pt-48 pb-32"
 >
   <h1 class="font-pixel text-6xl font-black text-secondary italic">404</h1>
-  <h2 class="font-pixel text-4xl font-black">{t("404.title")}</h2>
-  <p>{t("404.desc")}</p>
+  <h2 class="font-pixel text-4xl font-black">{m.notFound_title()}</h2>
+  <p>{m.notFound_desc()}</p>
 
   <Link
     class={buttonVariants({ variant: "secondary", size: "md" })}
     href="/"
     id="backButton"
   >
-    {t("404.back")}
+    {m.notFound_back()}
   </Link>
 </Layout>

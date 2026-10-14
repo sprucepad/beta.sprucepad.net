@@ -3,8 +3,10 @@ import Layout from "@/layouts/Layout.astro";
 import Cards from "@/components/Cards.svelte";
 import { getCards } from "@/lib/collections";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { localizeGetStaticPaths } from "@/lib/i18n";
 
-const locale = Astro.currentLocale!;
+export const getStaticPaths = localizeGetStaticPaths();
+const { locale } = Astro.params;
 
 const posts = await getCards(locale, "posts");
 ---

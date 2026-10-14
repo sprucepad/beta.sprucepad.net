@@ -6,16 +6,17 @@
   "engines": {
     "node": ">=22.12.0"
   },
-  "packageManager": "pnpm@12.10.1",
+  "packageManager": "pnpm@12.11.2",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide && astro build",
     "preview": "astro preview",
     "check": "astro check",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "fmt": "prettier --write .",
-    "fmt:check": "prettier --check ."
+    "fmt:check": "prettier --check .",
+    "check:i18n": "inlang check --project ./project.inlang"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.4",
@@ -52,6 +53,8 @@
     "svelte-eslint-parser": "^1.8.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.71.1",
-    "wrangler": "^4.148.0"
+    "wrangler": "^4.148.0",
+    "@inlang/paraglide-js": "^2.27.0",
+    "@inlang/cli": "^3.4.0"
   }
 }

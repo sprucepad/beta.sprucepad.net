@@ -1,5 +1,8 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { localizeGetStaticPaths } from "@/lib/i18n";
+
+export const getStaticPaths = localizeGetStaticPaths();
 ---
 
 <Layout

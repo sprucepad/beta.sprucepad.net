@@ -1,7 +1,7 @@
 ---
-import { i18n } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
 import { processTheme } from "@/lib/collections";
+import { m } from "@/paraglide/messages";
 import Icon from "@re-exports/lucide-astro-icon";
 import type { GetStaticPaths } from "astro";
 import { Image } from "astro:assets";
@@ -21,8 +21,7 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { post } = Astro.props;
-const { postId } = Astro.params;
-const { t, locale } = i18n(Astro.currentLocale);
+const { postId, locale } = Astro.params;
 
 const { Content } = await render(post);
 const topics = await getEntries(post.data.topics);
@@ -77,13 +76,13 @@ const theme = post.data.theme ? await processTheme(post.data.theme) : undefined;
     <footer class="not-prose">
       <ul class="list-disc flex gap-6 flex-wrap px-4">
         <li>
-          {t("license")}: {post.data.license}
+          {m.license()}: {post.data.license}
         </li>
         <li>
-          {t("createdAt")}: {post.data.createdAt.toLocaleDateString(locale)}
+          {m.createdAt()}: {post.data.createdAt.toLocaleDateString(locale)}
         </li>
         <li>
-          {t("updatedAt")}: {post.data.updatedAt.toLocaleDateString(locale)}
+          {m.updatedAt()}: {post.data.updatedAt.toLocaleDateString(locale)}
         </li>
       </ul>
     </footer>

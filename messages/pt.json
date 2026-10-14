@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "notFound_title": "página não encontrada",
+  "notFound_desc": "A página que você estava procurando não existe ou foi movida.",
+  "notFound_back": "Voltar",
+
+  "header_about": "Sobre",
+  "header_contact": "Contato",
+  "header_blog": "Blog",
+  "header_gallery": "Galeria",
+  "header_projects": "Projetos",
+
+  "license": "Licença",
+  "createdAt": "Criado em",
+  "updatedAt": "Atualizado em"
+}

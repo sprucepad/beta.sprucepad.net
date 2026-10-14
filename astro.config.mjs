@@ -3,6 +3,7 @@ import { defineConfig, fontProviders } from "astro/config";
 
 import cloudflare from "@astrojs/cloudflare";
 import tailwindcss from "@tailwindcss/vite";
+import { paraglideVitePlugin } from "@inlang/paraglide-js";
 import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
 import svelte from "@astrojs/svelte";
@@ -24,7 +25,15 @@ export default defineConfig({
   },
 
   integrations: [sitemap(), mdx(), svelte()],
-  vite: { plugins: [tailwindcss()] },
+  vite: {
+    plugins: [
+      paraglideVitePlugin({
+        project: "./project.inlang",
+        outdir: "./src/paraglide",
+      }),
+      tailwindcss(),
+    ],
+  },
 
   markdown: {
     shikiConfig: {
