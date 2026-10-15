@@ -18,6 +18,7 @@ import HammerIcon from "@lucide/astro/icons/hammer";
 import { m } from "@/paraglide/messages";
 import { Image } from "astro:assets";
 import Link from "./ui/Link.astro";
+import { getLocale } from "@/paraglide/runtime";
 
 const items = [
   { label: m.header_about(), href: "/", Icon: InfoIcon },
@@ -46,6 +47,8 @@ const socials = [
   },
   { label: "itch.io", href: "https://sprucepad.itch.io/", Icon: ItchIoIcon },
 ];
+
+const locale = getLocale();
 ---
 
 <header
@@ -75,10 +78,7 @@ const socials = [
       transition:animate="slide"
     >
       {items.map((item) => {
-        const pathname = Astro.url.pathname.replace(
-          "/" + Astro.currentLocale,
-          "",
-        );
+        const pathname = Astro.url.pathname.replace("/" + locale, "");
 
         return (
           <li>

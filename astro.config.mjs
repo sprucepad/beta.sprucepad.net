@@ -18,10 +18,7 @@ export default defineConfig({
   i18n: {
     defaultLocale: "pt",
     locales: ["pt", "en"],
-    routing: {
-      redirectToDefaultLocale: true,
-      prefixDefaultLocale: true,
-    },
+    routing: "manual",
   },
 
   integrations: [sitemap(), mdx(), svelte()],
@@ -30,6 +27,7 @@ export default defineConfig({
       paraglideVitePlugin({
         project: "./project.inlang",
         outdir: "./src/paraglide",
+        strategy: ["url", "globalVariable", "baseLocale"],
       }),
       tailwindcss(),
     ],

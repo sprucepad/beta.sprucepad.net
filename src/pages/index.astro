@@ -1,3 +1,8 @@
 ---
+import { getLocale } from "@/paraglide/runtime";
+
 export const prerender = false;
+
+const currentLocale = getLocale();
+return Astro.redirect(`/${currentLocale}/`);
 ---

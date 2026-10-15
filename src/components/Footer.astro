@@ -1,6 +1,9 @@
 ---
+import { getLocale } from "@/paraglide/runtime";
 import MoonIcon from "@lucide/astro/icons/moon";
 import SunIcon from "@lucide/astro/icons/sun";
+
+const locale = getLocale();
 ---
 
 <footer
@@ -20,10 +23,10 @@ import SunIcon from "@lucide/astro/icons/sun";
   </button>
 
   <select id="language">
-    <option value="pt" selected={Astro.currentLocale === "en"}>
+    <option value="pt" selected={locale === "en"}>
       Português
     </option>
-    <option value="en" selected={Astro.currentLocale === "en"}>
+    <option value="en" selected={locale === "en"}>
       English
     </option>
   </select>
