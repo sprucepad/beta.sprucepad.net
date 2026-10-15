@@ -1,23 +1,5 @@
----
-export interface ThemeDetail {
-  mode?: "off" | "uwu";
-  scheme?: string;
-  id?: string;
-
-  colors?: {
-    background?: string;
-    foreground?: string;
-    accent?: string;
-    accentForeground?: string;
-    secondary?: string;
-    secondaryForeground?: string;
-    border?: string;
-  };
-}
----
-
 <script>
-  import type { ThemeDetail } from "./Themes.astro";
+  import type { ThemeDetail } from "@/lib/types";
 
   window.addEventListener("themechange", (event) => {
     const e = event as CustomEvent<ThemeDetail>;

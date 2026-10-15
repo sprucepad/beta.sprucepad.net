@@ -1,4 +1,4 @@
-import type { ThemeDetail } from "@/components/Themes.astro";
+import type { ThemeDetail } from "./types";
 import { getImage } from "astro:assets";
 import {
   getCollection,

@@ -7,7 +7,8 @@ import ClientRouter from "astro/components/ClientRouter.astro";
 import Font from "astro/components/Font.astro";
 import type { HTMLAttributes } from "astro/types";
 import { getImage } from "astro:assets";
-import Themes, { type ThemeDetail } from "@/components/Themes.astro";
+import Themes from "@/components/Themes.astro";
+import type { ThemeDetail } from "@/lib/types";
 import { getLocale } from "@/paraglide/runtime";
 
 export interface LayoutProps {

@@ -2,3 +2,13 @@ allowBuilds:
   esbuild: true
   sharp: true
   workerd: true
+minimumReleaseAgeExclude:
+  - "@astrojs/cloudflare@14.4.0"
+  - "@astrojs/internal-helpers@0.13.0"
+  - "@astrojs/markdown-satteri@0.4.4"
+  - "@astrojs/mdx@8.1.0"
+  - "@astrojs/prism@4.1.0"
+  - "@astrojs/svelte@9.1.0"
+  - "@astrojs/telemetry@3.4.0"
+  - "@inlang/paraglide-js@2.29.0"
+  - astro@7.4.0
