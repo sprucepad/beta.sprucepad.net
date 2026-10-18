@@ -1,0 +1,62 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+  fixed?: boolean;
+}
+
+const { headings, fixed } = Astro.props;
+---
+
+<ul
+  class="headings p-4 data-fixed:sticky data-fixed:top-16 self-start md:hidden data-fixed:md:block data-fixed:hidden not-prose"
+  data-fixed={fixed}
+>
+  {headings.map((heading) => (
+    <li
+      style={{ "--depth": heading.depth - 1 }}
+      class="pl-[calc(var(--depth)*1rem)]"
+    >
+      <a
+        href={`#${heading.slug}`}
+        class="text-muted pl-2 border-l border-l-border data-selected:border-l-accent data-selected:border-l-3 data-selected:text-foreground transition-colors"
+      >
+        {heading.text}
+      </a>
+    </li>
+  ))}
+</ul>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const $fixedHeadingContainers = document.querySelectorAll<HTMLUListElement>(
+      ".headings[data-fixed]",
+    );
+
+    for (const $headingContainer of $fixedHeadingContainers) {
+      const $headingLink =
+        $headingContainer.querySelectorAll<HTMLAnchorElement>("li>a");
+      const map = new Map<string, HTMLAnchorElement>();
+
+      const observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          const $link = map.get(entry.target.id);
+          if (entry.isIntersecting) {
+            $link?.setAttribute("data-selected", "true");
+          } else {
+            $link?.removeAttribute("data-selected");
+          }
+        }
+      });
+
+      $headingLink.forEach(($link) => {
+        const hash = $link.href.slice($link.href.indexOf("#") + 1);
+        map.set(hash, $link);
+
+        const $heading = document.getElementById(hash);
+        if ($heading) observer.observe($heading);
+      });
+    }
+  });
+</script>

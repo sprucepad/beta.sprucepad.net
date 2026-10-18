@@ -17,6 +17,7 @@
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-border: var(--border);
+  --color-muted: var(--muted);
 }
 
 :root {
@@ -27,6 +28,7 @@
   --secondary: #487f58;
   --secondary-foreground: #eeeeee;
   --border: #cccccc;
+  --muted: #777777;
 }
 
 [data-theme^="dark"] {
@@ -37,6 +39,7 @@
   --secondary: #487f58;
   --secondary-foreground: #eeeeee;
   --border: #333333;
+  --muted: #777777;
 }
 
 @utility pixel-art {
@@ -46,7 +49,7 @@
 @layer base {
   html,
   body {
-    @apply h-full bg-background text-foreground;
+    @apply h-full scroll-smooth bg-background text-foreground;
   }
 
   /* dark mode code theme */

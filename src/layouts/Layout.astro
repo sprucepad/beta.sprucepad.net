@@ -7,10 +7,10 @@ import Footer from "@/components/Footer.astro";
 interface Props
   extends LayoutProps, Omit<HTMLAttributes<"main">, keyof LayoutProps> {}
 
-const { title, desc, image, theme, ...rest } = Astro.props;
+const { title, desc, cover, theme, ...rest } = Astro.props;
 ---
 
-<BaseLayout {title} {desc} {image} {theme}>
+<BaseLayout {title} {desc} {cover} {theme}>
   <Header />
   <main transition:name="main" transition:animate="slide" {...rest}>
     <slot />

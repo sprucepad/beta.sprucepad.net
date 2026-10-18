@@ -15,7 +15,7 @@ const aRel =
 const aHref =
   !aTarget || aTarget === "_self"
     ? getRelativeLocaleUrl(
-        getLocale() ?? "pt",
+        getLocale(),
         href instanceof URL ? href.pathname : (href ?? undefined),
       )
     : href;

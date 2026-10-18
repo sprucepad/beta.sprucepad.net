@@ -1,7 +1,7 @@
 ---
 import "@/styles/global.css";
 import favicon from "@content/assets/favicon.png";
-import defaultImage from "@content/assets/default-cover.png";
+import defaultCover from "@content/assets/default-cover.png";
 
 import ClientRouter from "astro/components/ClientRouter.astro";
 import Font from "astro/components/Font.astro";
@@ -14,7 +14,7 @@ import { getLocale } from "@/paraglide/runtime";
 export interface LayoutProps {
   title: string;
   desc: string;
-  image?: ImageMetadata;
+  cover?: ImageMetadata;
   theme?: ThemeDetail;
 }
 
@@ -24,17 +24,17 @@ interface Props
 const {
   title,
   desc,
-  image: unoptimizedImage = defaultImage,
+  cover: unoptimizedCover = defaultCover,
   theme,
   ...rest
 } = Astro.props;
-const optimizedImage = await getImage({
-  src: unoptimizedImage,
+const optimizedCover = await getImage({
+  src: unoptimizedCover,
   width: 1280,
   height: 628,
   fit: "contain",
 });
-const imageURL = new URL(optimizedImage.src, Astro.site);
+const coverURL = new URL(optimizedCover.src, Astro.site);
 
 function createThemeStyles(colors: ThemeDetail["colors"]) {
   if (!colors) return;
@@ -81,14 +81,14 @@ const style = createThemeStyles(theme?.colors);
     <meta property="og:url" content={Astro.site} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={desc} />
-    <meta property="og:image" content={imageURL} />
+    <meta property="og:image" content={coverURL} />
 
     {/* twitter (x) */}
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={Astro.site} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={desc} />
-    <meta property="twitter:image" content={imageURL} />
+    <meta property="twitter:image" content={coverURL} />
   </head>
   <body {...rest}>
     <slot />

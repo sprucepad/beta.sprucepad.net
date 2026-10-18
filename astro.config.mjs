@@ -8,7 +8,7 @@ import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
 import svelte from "@astrojs/svelte";
 
-import { satteri } from "@astrojs/markdown-satteri";
+import { satteri, satteriHeadingIdsPlugin } from "@astrojs/markdown-satteri";
 import externalLinks from "./src/plugins/external-links";
 
 // https://astro.build/config
@@ -18,7 +18,7 @@ export default defineConfig({
   i18n: {
     defaultLocale: "pt",
     locales: ["pt", "en"],
-    routing: "manual",
+    routing: { prefixDefaultLocale: true },
   },
 
   integrations: [sitemap(), mdx(), svelte()],
@@ -27,7 +27,6 @@ export default defineConfig({
       paraglideVitePlugin({
         project: "./project.inlang",
         outdir: "./src/paraglide",
-        strategy: ["url", "globalVariable", "baseLocale"],
       }),
       tailwindcss(),
     ],
@@ -41,7 +40,7 @@ export default defineConfig({
       },
     },
     processor: satteri({
-      hastPlugins: [externalLinks],
+      hastPlugins: [satteriHeadingIdsPlugin(), externalLinks],
     }),
   },
 

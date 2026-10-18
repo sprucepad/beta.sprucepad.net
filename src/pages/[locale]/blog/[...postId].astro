@@ -1,13 +1,8 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-import { processTheme } from "@/lib/collections";
-import { m } from "@/paraglide/messages";
-import Icon from "@re-exports/lucide-astro-icon";
+import Headings from "@/components/Headings.astro";
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
 import type { GetStaticPaths } from "astro";
-import { Image } from "astro:assets";
-import { getEntries } from "astro:content";
 import { getCollection, render } from "astro:content";
-import { icons } from "lucide";
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection("posts");
@@ -21,70 +16,14 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { post } = Astro.props;
-const { postId, locale } = Astro.params;
+const { postId } = Astro.params;
 
-const { Content } = await render(post);
-const topics = await getEntries(post.data.topics);
-
-const theme = post.data.theme ? await processTheme(post.data.theme) : undefined;
+const { Content, headings } = await render(post);
 ---
 
-<Layout
-  title={post.data.title}
-  desc={post.data.desc}
-  image={post.data.cover}
-  {theme}
->
-  <article class="mx-auto prose dark:prose-invert">
-    <header class="not-prose">
-      {post.data.cover && (
-        <Image
-          src={post.data.cover}
-          alt=""
-          class="mb-4 rounded-lg"
-          transition:name={`card-image-${postId}`}
-        />
-      )}
-      <h1
-        class="font-pixel text-4xl font-black"
-        transition:name={`card-title-${postId}`}
-      >
-        {post.data.title}
-      </h1>
-      <p transition:name={`card-desc-${postId}`}>{post.data.desc}</p>
+<ArticleLayout {post} {postId} class="max-w-[calc(65ch+10rem)] mx-auto">
+  <Headings {headings} />
+  <Content />
 
-      <ul
-        transition:name={`card-topics-${postId}`}
-        class="mt-4 flex flex-wrap gap-2"
-      >
-        {topics.map((topic) => (
-          <li class="flex items-center gap-1 rounded-lg bg-accent p-1 px-2 text-accent-foreground">
-            <Icon
-              iconNode={
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any -- this might be a bug in Lucide, as the icon renders just fine
-                (icons as any)[topic.data.icon]
-              }
-            />
-            {topic.data.name[locale]}
-          </li>
-        ))}
-      </ul>
-    </header>
-
-    <Content />
-
-    <footer class="not-prose">
-      <ul class="list-disc flex gap-6 flex-wrap px-4">
-        <li>
-          {m.license()}: {post.data.license}
-        </li>
-        <li>
-          {m.createdAt()}: {post.data.createdAt.toLocaleDateString(locale)}
-        </li>
-        <li>
-          {m.updatedAt()}: {post.data.updatedAt.toLocaleDateString(locale)}
-        </li>
-      </ul>
-    </footer>
-  </article>
-</Layout>
+  <Headings {headings} slot="sidebar" fixed />
+</ArticleLayout>

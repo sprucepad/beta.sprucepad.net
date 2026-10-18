@@ -48,6 +48,7 @@ const projects = defineCollection({
 
       theme: reference("themes").optional(),
       topics: z.array(reference("topics")).default([]),
+      license: z.string().default("All Rights Reserved"),
 
       createdAt: z.date(),
       updatedAt: z.date(),
