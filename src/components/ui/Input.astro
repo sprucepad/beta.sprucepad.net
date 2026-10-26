@@ -1,0 +1,36 @@
+---
+import type { HTMLTag, Polymorphic } from "astro/types";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "cn";
+
+const inputVariants = cva("w-full focus:outline-2", {
+  variants: {
+    variant: {
+      standard: "border border-border outline-accent",
+    },
+    size: {
+      sm: "rounded-lg p-2",
+    },
+  },
+  defaultVariants: {
+    variant: "standard",
+    size: "sm",
+  },
+});
+
+type Props<T extends HTMLTag = "input"> = Polymorphic<{ as: T }> &
+  VariantProps<typeof inputVariants>;
+
+const {
+  as: Tag = "input",
+  variant,
+  size,
+
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<Tag class={cn(inputVariants({ variant, size }), className)} {...rest}>
+  <slot />
+</Tag>

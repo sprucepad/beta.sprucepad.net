@@ -1,0 +1,60 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { socials } from "@/components/Header.astro";
+import { localizeGetStaticPaths } from "@/lib/i18n";
+import { m } from "@/paraglide/messages";
+import Link from "@/components/ui/Link.astro";
+import Input from "@/components/ui/Input.astro";
+import Button from "@/components/ui/Button.astro";
+
+export const getStaticPaths = localizeGetStaticPaths();
+
+const email = "sprucepadhq@gmail.com";
+---
+
+<Layout
+  title={m.contact_title()}
+  desc={m.contact_desc()}
+  class="max-w-prose mx-auto"
+>
+  <section class="my-12">
+    <h1 class="font-pixel text-4xl font-black text-center mb-4">
+      {m.contact_follow()}
+    </h1>
+    <ul class="flex flex-wrap justify-center items-center gap-2">
+      {socials.map((social) => (
+        <li>
+          <Link href={social.href} class="flex gap-2 hover:underline">
+            <social.Icon width={24} height={24} />
+            {social.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="my-12">
+    <h1 class="font-pixel text-4xl font-black text-center">
+      {m.contact_email()}
+    </h1>
+    <p class="text-center mb-4 underline italic font-pixel text-muted">
+      <a href={`mailto:${email}`}>{email}</a>
+    </p>
+    <form action={`mailto:${email}`} class="space-y-4">
+      <label for="contact-subject">{m.contact_subject()}</label>
+      <Input
+        id="contact-subject"
+        placeholder={m.contact_subject_placeholder()}
+      />
+      <label for="contact-body">{m.contact_body()}</label>
+      <Input
+        as="textarea"
+        class="min-h-32 field-sizing-content supports-[field-sizing:content]:resize-none"
+        id="contact-body"
+        placeholder={m.contact_body_placeholder()}
+      />
+
+      <Button type="submit">{m.contact_submit()}</Button>
+    </form>
+  </section>
+</Layout>
