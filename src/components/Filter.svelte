@@ -146,7 +146,7 @@
         {@const ascending = orderAscendRegex.test(value)}
 
         <button
-          class="group flex cursor-pointer items-center gap-2 rounded-full pl-2 data-selected:bg-accent data-selected:text-accent-foreground"
+          class="group flex cursor-pointer items-center gap-2 rounded-full pl-2 transition-colors data-selected:bg-accent data-selected:text-accent-foreground"
           data-selected={selected ? true : undefined}
           onclick={(e) => {
             if (!selected)
@@ -160,14 +160,14 @@
         >
           <span class="flex-1 text-start">{title}</span>
           <div
-            class="rounded-r-full bg-secondary p-1 text-secondary-foreground opacity-0 group-data-selected:opacity-100"
+            class="rounded-r-full bg-secondary p-1 text-secondary-foreground opacity-0 transition-opacity group-data-selected:opacity-100"
             aria-label="Toggle order"
             data-toggle
           >
             {#if ascending}
-              <ArrowUpIcon />
+              <ArrowUpIcon width={16} height={16} />
             {:else}
-              <ArrowDownIcon />
+              <ArrowDownIcon width={16} height={16} />
             {/if}
           </div>
         </button>

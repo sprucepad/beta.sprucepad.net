@@ -9,6 +9,8 @@ import { render } from "astro:content";
 export const getStaticPaths = localizeGetStaticPaths();
 const { locale } = Astro.params;
 
+// TODO
+
 const { Content } = await render(
   await getEntry("articles", `${locale}/about`)!,
 );

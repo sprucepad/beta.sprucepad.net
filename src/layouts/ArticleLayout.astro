@@ -9,6 +9,7 @@ import { processTheme } from "@/lib/collections";
 import { getEntries } from "astro:content";
 import Icon from "@re-exports/lucide-astro-icon";
 import { icons } from "lucide";
+import Article from "@/components/Article.astro";
 
 interface Props extends HTMLAttributes<"article"> {
   post: CollectionEntry<"posts" | "projects">;

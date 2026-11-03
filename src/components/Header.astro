@@ -156,9 +156,12 @@ const locale = getLocale();
         () => {
           if (document.activeViewTransition) return;
 
-          if (window.scrollY - prevScroll >= 0)
+          if (window.scrollY - prevScroll >= 0) {
             $header?.setAttribute("data-hidden", "");
-          else $header?.removeAttribute("data-hidden");
+            $header?.removeAttribute("data-open");
+          } else {
+            $header?.removeAttribute("data-hidden");
+          }
 
           prevScroll = window.scrollY;
         },
