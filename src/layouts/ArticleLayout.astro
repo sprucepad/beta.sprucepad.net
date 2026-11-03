@@ -31,10 +31,7 @@ const locale = Astro.currentLocale!;
   class={cn("flex flex-col md:flex-row relative", className)}
 >
   <div class="flex-1">
-    <article
-      class="prose mx-auto prose-headings:font-pixel dark:prose-invert"
-      {...rest}
-    >
+    <Article {...rest}>
       <header class="not-prose mb-4">
         {post.data.cover && (
           <Image
@@ -85,7 +82,7 @@ const locale = Astro.currentLocale!;
           </li>
         </ul>
       </footer>
-    </article>
+    </Article>
   </div>
 
   <slot name="sidebar" />

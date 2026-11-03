@@ -66,4 +66,12 @@ const topics = defineCollection({
   }),
 });
 
-export const collections = { themes, posts, projects, topics };
+// Basic text articles, such as the about page
+const articles = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "content/articles",
+  }),
+});
+
+export const collections = { themes, posts, projects, topics, articles };

@@ -1,0 +1,34 @@
+{
+  "notFound_title": "page not found | sprucepad",
+  "notFound_desc": "The page you were looking for does not exist or was moved.",
+  "notFound_back": "Back",
+
+  "header_about": "About",
+  "header_contact": "Contact",
+  "header_blog": "Blog",
+  "header_gallery": "Gallery",
+  "header_projects": "Projects",
+
+  "license": "License",
+  "createdAt": "Created at",
+  "updatedAt": "Updated at",
+
+  "index_title": "sprucepad | programmer & artist",
+  "index_desc": "my personal & professional website!",
+  "index_message": "Hello, World!",
+
+  "blog_title": "blog | sprucepad",
+  "blog_desc": "my blog, with devlogs for my projects, writings about art or anything else i want to write about!",
+  "blog_search": "Search in blog posts",
+  "blog_empty": "No posts yet!",
+
+  "contact_title": "contact | sprucepad",
+  "contact_desc": "reach out to me through my email or my social media platforms!",
+  "contact_subject": "Subject",
+  "contact_subject_placeholder": "What is what you want to tell me about?",
+  "contact_body": "Body",
+  "contact_body_placeholder": "What do you want to tell me?",
+  "contact_submit": "Send through your email app",
+  "contact_follow": "Follow me on social media!",
+  "contact_email": "Shoot me an email!"
+}

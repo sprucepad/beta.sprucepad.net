@@ -1,0 +1,34 @@
+{
+  "notFound_title": "página não encontrada",
+  "notFound_desc": "A página que você estava procurando não existe ou foi movida.",
+  "notFound_back": "Voltar",
+
+  "header_about": "Sobre",
+  "header_contact": "Contato",
+  "header_blog": "Blog",
+  "header_gallery": "Galeria",
+  "header_projects": "Projetos",
+
+  "license": "Licença",
+  "createdAt": "Criado em",
+  "updatedAt": "Atualizado em",
+
+  "index_title": "sprucepad | programador e artista",
+  "index_desc": "meu site pessoal e profissional!",
+  "index_message": "Olá, Mundo!",
+
+  "blog_title": "blog | sprucepad",
+  "blog_desc": "meu blog, com devlogs dos meus projetos, escritas sobre arte ou qualquer coisa que quero escrever sobre!",
+  "blog_search": "Pesquisar nos posts do blog",
+  "blog_empty": "Nenhum post ainda!",
+
+  "contact_title": "contato | sprucepad",
+  "contact_desc": "me alcance pelo meu email ou pelas minhas redes sociais!",
+  "contact_subject": "Sujeito",
+  "contact_subject_placeholder": "Sobre o quê você quer me falar?",
+  "contact_body": "Corpo",
+  "contact_body_placeholder": "O quê você quer me falar?",
+  "contact_submit": "Enviar pelo seu aplicativo de email",
+  "contact_follow": "Me siga nas redes sociais!",
+  "contact_email": "Me mande um email!"
+}
